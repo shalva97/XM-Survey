@@ -1,4 +1,4 @@
-package io.github.shalva97.xm_survey
+package io.github.shalva97.xm_survey.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,19 +10,27 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.shalva97.xm_survey.theme.XMSurveyTheme
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import io.github.shalva97.xm_survey.presentation.home.HomeScreen
+import io.github.shalva97.xm_survey.presentation.survey.SurveyScreen
+import io.github.shalva97.xm_survey.presentation.theme.XMSurveyTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val navController = rememberNavController()
             XMSurveyTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    NavHost(navController = navController, startDestination = HOME) {
+                        composable(HOME) { HomeScreen() }
+                        composable(SURVEY) { SurveyScreen() }
+                    }
                 }
             }
         }
@@ -44,3 +52,6 @@ fun GreetingPreview() {
         Greeting("Android")
     }
 }
+
+const val HOME = "home"
+const val SURVEY = "survey"
