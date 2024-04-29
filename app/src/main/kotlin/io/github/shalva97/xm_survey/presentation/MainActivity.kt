@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     NavHost(navController = navController, startDestination = HOME) {
-                        composable(HOME) { HomeScreen() }
+                        composable(HOME) { HomeScreen(navController) }
                         composable(SURVEY) { SurveyScreen() }
                     }
                 }
