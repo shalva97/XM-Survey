@@ -5,4 +5,5 @@
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="question_20">Question %1$s/20</string>
+    <string name="questions_submitted">Questions submitted: %1$s</string>
 </resources>

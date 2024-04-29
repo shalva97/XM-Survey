@@ -6,7 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import io.github.shalva97.xm_survey.presentation.components.SurveyTopBar
+import io.github.shalva97.xm_survey.presentation.survey.components.QuestionsSubmitted
+import io.github.shalva97.xm_survey.presentation.survey.components.SurveyTopBar
 
 @Composable
 fun SurveyScreen(
@@ -14,7 +15,7 @@ fun SurveyScreen(
 ) {
     Column(Modifier.fillMaxSize()) {
         SurveyTopBar()
-
+        QuestionsSubmitted()
     }
 }
 
