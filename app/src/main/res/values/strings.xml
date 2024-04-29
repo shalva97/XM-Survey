@@ -6,4 +6,7 @@
     <string name="next">Next</string>
     <string name="question_20">Question %1$s/20</string>
     <string name="questions_submitted">Questions submitted: %1$s</string>
+    <string name="type_here_for_an_answer">Type here for an answer...</string>
+    <string name="already_submitted">Already submitted</string>
+    <string name="submit">Submit</string>
 </resources>
