@@ -29,7 +29,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavHost(navController = navController, startDestination = HOME) {
+                    // TODO set HOME as start destination
+                    NavHost(navController = navController, startDestination = SURVEY) {
                         composable(HOME) { HomeScreen(navController) }
                         composable(SURVEY) { SurveyScreen() }
                     }
