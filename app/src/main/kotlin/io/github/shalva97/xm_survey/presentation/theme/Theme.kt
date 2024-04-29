@@ -1,4 +1,4 @@
-package io.github.shalva97.xm_survey.theme
+package io.github.shalva97.xm_survey.presentation.theme
 
 import android.app.Activity
 import android.os.Build
