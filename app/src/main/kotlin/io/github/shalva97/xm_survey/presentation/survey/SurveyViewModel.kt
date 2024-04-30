@@ -1,19 +1,35 @@
 package io.github.shalva97.xm_survey.presentation.survey
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.shalva97.xm_survey.domain.SurveyRepository
 import io.github.shalva97.xm_survey.presentation.models.QuestionUI
+import io.github.shalva97.xm_survey.presentation.models.toUI
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SurveyViewModel @Inject constructor() : ViewModel() {
+class SurveyViewModel @Inject constructor(
+    private val surveyRepo: SurveyRepository,
+) : ViewModel() {
+
+    val questions = MutableStateFlow(emptyList<QuestionUI>())
+    val error = MutableStateFlow(false)
+
+    init {
+        viewModelScope.launch {
+            questions.emit(surveyRepo.get().map { it.toUI() })
+        }
+    }
 
     fun submitAnswer(id: Int, answer: String) {
         println(answer)
 //        TODO("Not yet implemented")
     }
 
-    val questions = listOf(
+    val mockQuestions = listOf(
         QuestionUI(1, "What is the capital of France?"),
         QuestionUI(2, "Who wrote 'To Kill a Mockingbird'?"),
         QuestionUI(3, "What is the smallest prime number?"),
@@ -34,5 +50,12 @@ class SurveyViewModel @Inject constructor() : ViewModel() {
         QuestionUI(18, "What is the speed of light in a vacuum?"),
         QuestionUI(19, "What language is primarily spoken in Brazil?"),
         QuestionUI(20, "Which composer wrote the 'Fifth Symphony'?")
+    )
+}
+
+sealed interface SurveyScreenState {
+    data object Loading : SurveyScreenState
+    class Questions(
+        val questions: List<QuestionUI>,
     )
 }

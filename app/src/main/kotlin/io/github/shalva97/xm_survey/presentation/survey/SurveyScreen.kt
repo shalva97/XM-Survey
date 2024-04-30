@@ -7,6 +7,8 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,7 +24,8 @@ fun SurveyScreen(
     viewModel: SurveyViewModel = hiltViewModel(),
 ) {
     Column(Modifier.fillMaxSize()) {
-        val pagerState = rememberPagerState(pageCount = { viewModel.questions.size })
+        val questions by viewModel.questions.collectAsState()
+        val pagerState = rememberPagerState(pageCount = { questions.size })
         val coroutineScope = rememberCoroutineScope()
         SurveyTopBar(onPreviousClicked = {
             coroutineScope.launch {
@@ -35,7 +38,7 @@ fun SurveyScreen(
         }, currentQuestion = pagerState.currentPage + 1)
         QuestionsSubmitted()
         HorizontalPager(state = pagerState) { page ->
-            QuestionItem(viewModel.questions[page]) { id: Int, answer: String ->
+            QuestionItem(questions[page]) { id: Int, answer: String ->
                 viewModel.submitAnswer(id, answer)
             }
         }
