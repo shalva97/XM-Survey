@@ -4,9 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.shalva97.xm_survey.domain.SurveyRepository
+import io.github.shalva97.xm_survey.domain.models.Answer
 import io.github.shalva97.xm_survey.presentation.models.QuestionUI
 import io.github.shalva97.xm_survey.presentation.models.toUI
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,7 +22,11 @@ class SurveyViewModel @Inject constructor(
 ) : ViewModel() {
 
     val questions = MutableStateFlow(emptyList<QuestionUI>())
-    val error = MutableStateFlow(false)
+    val questionsAnswered = questions.map { questions ->
+        questions.count { question -> question.isSubmitted }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), 0)
+
+    val isSubmitted = MutableStateFlow(false)
 
     init {
         viewModelScope.launch {
@@ -24,9 +34,8 @@ class SurveyViewModel @Inject constructor(
         }
     }
 
-    fun submitAnswer(id: Int, answer: String) {
-        println(answer)
-//        TODO("Not yet implemented")
+    fun submitAnswer(id: Int, answer: String) = viewModelScope.launch {
+        surveyRepo.submit(Answer(id, answer))
     }
 
     val mockQuestions = listOf(

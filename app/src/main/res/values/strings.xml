@@ -9,4 +9,6 @@
     <string name="type_here_for_an_answer">Type here for an answer...</string>
     <string name="already_submitted">Already submitted</string>
     <string name="submit">Submit</string>
+    <string name="retry">RETRY</string>
+    <string name="failure">Failure!</string>
 </resources>

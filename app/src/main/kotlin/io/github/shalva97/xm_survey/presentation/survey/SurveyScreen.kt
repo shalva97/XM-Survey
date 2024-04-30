@@ -25,6 +25,7 @@ fun SurveyScreen(
 ) {
     Column(Modifier.fillMaxSize()) {
         val questions by viewModel.questions.collectAsState()
+        val answered by viewModel.questionsAnswered.collectAsState()
         val pagerState = rememberPagerState(pageCount = { questions.size })
         val coroutineScope = rememberCoroutineScope()
         SurveyTopBar(onPreviousClicked = {
@@ -36,7 +37,7 @@ fun SurveyScreen(
                 pagerState.animateScrollToPage(page = pagerState.currentPage + 1)
             }
         }, currentQuestion = pagerState.currentPage + 1)
-        QuestionsSubmitted()
+        QuestionsSubmitted(answered)
         HorizontalPager(state = pagerState) { page ->
             QuestionItem(questions[page]) { id: Int, answer: String ->
                 viewModel.submitAnswer(id, answer)
