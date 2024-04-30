@@ -20,17 +20,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.shalva97.xm_survey.R
+import io.github.shalva97.xm_survey.presentation.QuestionUI
 
 @Composable
-fun Question(
-    question: String,
-    onSubmitClicked: (answer: String) -> Unit = {},
-    isAlreadySubmitted: Boolean = false,
+fun QuestionItem(
+    question: QuestionUI,
+    onSubmitClicked: (id: Int, answer: String) -> Unit = { _, _ -> },
 ) {
     Column(Modifier.fillMaxWidth()) {
         Text(
             modifier = Modifier.padding(8.dp),
-            text = question,
+            text = question.question,
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.titleLarge
         )
@@ -45,9 +45,9 @@ fun Question(
             modifier = Modifier
                 .fillMaxWidth(.5f)
                 .align(Alignment.CenterHorizontally)
-                .padding(top = 16.dp), onClick = { onSubmitClicked.invoke(text) }
+                .padding(top = 16.dp), onClick = { onSubmitClicked.invoke(question.id, text) }
         ) {
-            if (isAlreadySubmitted) {
+            if (question.isSubmitted) {
                 Text(text = stringResource(R.string.already_submitted))
             } else {
                 Text(text = stringResource(R.string.submit))
@@ -60,7 +60,7 @@ fun Question(
 @Composable
 private fun QuestionPreview() {
     Surface {
-        Question("What is your favourite food?")
+        QuestionItem(QuestionUI(1, "What is the capital of France?"))
     }
 }
 

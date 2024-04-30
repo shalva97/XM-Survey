@@ -11,7 +11,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import io.github.shalva97.xm_survey.presentation.survey.components.Question
+import io.github.shalva97.xm_survey.presentation.survey.components.QuestionItem
 import io.github.shalva97.xm_survey.presentation.survey.components.QuestionsSubmitted
 import io.github.shalva97.xm_survey.presentation.survey.components.SurveyTopBar
 import kotlinx.coroutines.launch
@@ -22,7 +22,7 @@ fun SurveyScreen(
     viewModel: SurveyViewModel = hiltViewModel(),
 ) {
     Column(Modifier.fillMaxSize()) {
-        val pagerState = rememberPagerState(pageCount = { 10 })
+        val pagerState = rememberPagerState(pageCount = { viewModel.questions.size })
         val coroutineScope = rememberCoroutineScope()
         SurveyTopBar(onPreviousClicked = {
             coroutineScope.launch {
@@ -32,10 +32,12 @@ fun SurveyScreen(
             coroutineScope.launch {
                 pagerState.animateScrollToPage(page = pagerState.currentPage + 1)
             }
-        })
+        }, currentQuestion = pagerState.currentPage + 1)
         QuestionsSubmitted()
         HorizontalPager(state = pagerState) { page ->
-            Question("asdasd question $page")
+            QuestionItem(viewModel.questions[page]) { id: Int, answer: String ->
+                viewModel.submitAnswer(id, answer)
+            }
         }
     }
 }
