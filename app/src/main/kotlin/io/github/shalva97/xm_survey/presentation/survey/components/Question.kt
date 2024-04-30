@@ -20,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.shalva97.xm_survey.R
-import io.github.shalva97.xm_survey.presentation.QuestionUI
+import io.github.shalva97.xm_survey.presentation.models.QuestionUI
 
 @Composable
 fun QuestionItem(

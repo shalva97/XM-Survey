@@ -2,7 +2,7 @@ package io.github.shalva97.xm_survey.presentation.survey
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.shalva97.xm_survey.presentation.QuestionUI
+import io.github.shalva97.xm_survey.presentation.models.QuestionUI
 import javax.inject.Inject
 
 @HiltViewModel
