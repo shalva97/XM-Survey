@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,36 +22,33 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val navController = rememberNavController()
             XMSurveyTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    // TODO set HOME as start destination
-                    NavHost(navController = navController, startDestination = SURVEY) {
-                        composable(HOME) { HomeScreen(navController) }
-                        composable(SURVEY) { SurveyScreen() }
-                    }
-                }
+                XMApp()
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun XMApp() {
+    val navController = rememberNavController()
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        // TODO set HOME as start destination
+        NavHost(navController = navController, startDestination = HOME) {
+            composable(HOME) { HomeScreen(navController) }
+            composable(SURVEY) { SurveyScreen() }
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     XMSurveyTheme {
-        Greeting("Android")
+        XMApp()
     }
 }
 

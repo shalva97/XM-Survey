@@ -75,6 +75,12 @@ dependencies {
     implementation(libs.androidx.material3)
     testImplementation(kotlin("test"))
     testImplementation(libs.junit)
+    debugImplementation(libs.ui.test.manifest)
+    // For instrumented tests.
+    androidTestImplementation(libs.hilt.android.testing)
+    // ...with Kotlin.
+    kaptAndroidTest(libs.dagger.hilt.android.compiler)
+    androidTestImplementation(libs.ui.test.junit4)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

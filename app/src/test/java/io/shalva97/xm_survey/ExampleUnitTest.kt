@@ -1,8 +1,7 @@
-package io.example.xm_survey
+package io.shalva97.xm_survey
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
