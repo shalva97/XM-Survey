@@ -5,6 +5,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import java.net.InetSocketAddress
+import java.net.Proxy
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
 import javax.inject.Singleton
@@ -20,8 +22,8 @@ class Network {
     @Singleton
     fun getHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
-//            .proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress("192.168.88.168", 8888)))
-//            .ignoreAllSSLErrors()
+            .proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress("192.168.88.168", 8888)))
+            .ignoreAllSSLErrors()
             .build()
     }
 }

@@ -80,6 +80,7 @@ dependencies {
     implementation(libs.androidx.material3)
     testImplementation(kotlin("test"))
     testImplementation(libs.junit)
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
     debugImplementation(libs.ui.test.manifest)
     // For instrumented tests.
     androidTestImplementation(libs.hilt.android.testing)
