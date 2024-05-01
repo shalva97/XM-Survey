@@ -31,18 +31,12 @@ fun QuestionItem(
         var text by remember { mutableStateOf("") }
         when (question.status) {
             SubmitStatus.InProgress -> {
-                // TODO
+                // TODO show loader
             }
 
-            SubmitStatus.Failed -> {
-                ErrorState { question.onClicked(text) }
-            }
-
-            SubmitStatus.Submitted -> {
-                SuccessState()
-            }
-
-            SubmitStatus.Unanswered -> {}
+            SubmitStatus.Failed -> ErrorState { question.onClicked(text) }
+            SubmitStatus.SubmittedAndShowingSuccess -> SuccessState()
+            else -> {}
         }
         Text(
             modifier = Modifier.padding(8.dp),
@@ -60,10 +54,13 @@ fun QuestionItem(
             modifier = Modifier
                 .fillMaxWidth(.5f)
                 .align(Alignment.CenterHorizontally)
-                .padding(top = 16.dp), onClick = { question.onClicked(text) },
+                .padding(top = 16.dp),
+            onClick = { question.onClicked(text) },
             enabled = question.status != SubmitStatus.Submitted
         ) {
-            if (question.status == SubmitStatus.Submitted) {
+            if (question.status == SubmitStatus.Submitted
+                || question.status == SubmitStatus.SubmittedAndShowingSuccess
+            ) {
                 Text(text = stringResource(R.string.already_submitted))
             } else {
                 Text(text = stringResource(R.string.submit))

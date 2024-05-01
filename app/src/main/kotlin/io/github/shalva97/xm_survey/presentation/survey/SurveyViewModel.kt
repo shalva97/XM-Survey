@@ -40,13 +40,21 @@ class SurveyViewModel @Inject constructor(
         } catch (e: Exception) {
             setItemTo(SubmitStatus.Failed, id)
         }
-        setItemTo(SubmitStatus.Submitted, id)
+        setItemTo(SubmitStatus.SubmittedAndShowingSuccess, id)
     }
 
     private suspend fun setItemTo(status: SubmitStatus, id: Int) {
         questions.emit(questions.value.map {
             if (it.id == id) {
                 it.copy(status = status)
+            } else it
+        })
+    }
+
+    fun clearSuccess() {
+        questions.tryEmit(questions.value.map {
+            if (it.status == SubmitStatus.SubmittedAndShowingSuccess) {
+                it.copy(status = SubmitStatus.Submitted)
             } else it
         })
     }
