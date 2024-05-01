@@ -2,6 +2,7 @@
 
 package io.github.shalva97.xm_survey.presentation.survey
 
+import io.github.shalva97.xm_survey.MainDispatcherRule
 import io.github.shalva97.xm_survey.domain.SurveyRepositoryFake
 import io.github.shalva97.xm_survey.presentation.models.QuestionUI
 import io.github.shalva97.xm_survey.presentation.models.SubmitStatus
@@ -45,8 +46,8 @@ class SurveyViewModelTest {
         advanceUntilIdle()
         assertEquals(
             SubmitStatus.Failed,
-            questions.first().first().status
-        ) // TODO find out why it does not emit new value
+            questions.last().first().status
+        )
 
         collectJob.cancel()
     }

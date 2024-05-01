@@ -1,4 +1,4 @@
-package io.github.shalva97.xm_survey.presentation.survey
+package io.github.shalva97.xm_survey
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
