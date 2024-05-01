@@ -6,11 +6,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.shalva97.xm_survey.domain.SurveyRepository
 import io.github.shalva97.xm_survey.domain.models.Answer
 import io.github.shalva97.xm_survey.presentation.models.QuestionUI
+import io.github.shalva97.xm_survey.presentation.models.SubmitStatus
 import io.github.shalva97.xm_survey.presentation.models.toUI
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -23,18 +22,18 @@ class SurveyViewModel @Inject constructor(
 
     val questions = MutableStateFlow(emptyList<QuestionUI>())
     val questionsAnswered = questions.map { questions ->
-        questions.count { question -> question.isSubmitted }
+        questions.count { question -> question.status == SubmitStatus.Submitted }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), 0)
-
-    val isSubmitted = MutableStateFlow(false)
 
     init {
         viewModelScope.launch {
-            questions.emit(surveyRepo.get().map { it.toUI() })
+            questions.emit(surveyRepo.get().map {
+                it.toUI { answer -> submitAnswer(it.id, answer) }
+            })
         }
     }
 
-    fun submitAnswer(id: Int, answer: String) = viewModelScope.launch {
+    private fun submitAnswer(id: Int, answer: String) = viewModelScope.launch {
         surveyRepo.submit(Answer(id, answer))
     }
 
@@ -59,12 +58,5 @@ class SurveyViewModel @Inject constructor(
         QuestionUI(18, "What is the speed of light in a vacuum?"),
         QuestionUI(19, "What language is primarily spoken in Brazil?"),
         QuestionUI(20, "Which composer wrote the 'Fifth Symphony'?")
-    )
-}
-
-sealed interface SurveyScreenState {
-    data object Loading : SurveyScreenState
-    class Questions(
-        val questions: List<QuestionUI>,
     )
 }

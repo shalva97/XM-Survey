@@ -28,6 +28,7 @@ fun SurveyScreen(
         val answered by viewModel.questionsAnswered.collectAsState()
         val pagerState = rememberPagerState(pageCount = { questions.size })
         val coroutineScope = rememberCoroutineScope()
+
         SurveyTopBar(onPreviousClicked = {
             coroutineScope.launch {
                 pagerState.animateScrollToPage(page = pagerState.currentPage - 1)
@@ -36,12 +37,10 @@ fun SurveyScreen(
             coroutineScope.launch {
                 pagerState.animateScrollToPage(page = pagerState.currentPage + 1)
             }
-        }, currentQuestion = pagerState.currentPage + 1)
+        }, currentQuestion = pagerState.currentPage + PAGE_OFFSET)
         QuestionsSubmitted(answered)
         HorizontalPager(state = pagerState) { page ->
-            QuestionItem(questions[page]) { id: Int, answer: String ->
-                viewModel.submitAnswer(id, answer)
-            }
+            QuestionItem(questions[page])
         }
     }
 }
@@ -53,3 +52,5 @@ fun SurveyScreenPreview() {
         SurveyScreen()
     }
 }
+
+private const val PAGE_OFFSET = 1

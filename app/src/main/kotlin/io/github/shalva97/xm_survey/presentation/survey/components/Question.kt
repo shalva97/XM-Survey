@@ -21,11 +21,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.shalva97.xm_survey.R
 import io.github.shalva97.xm_survey.presentation.models.QuestionUI
+import io.github.shalva97.xm_survey.presentation.models.SubmitStatus
 
 @Composable
 fun QuestionItem(
     question: QuestionUI,
-    onSubmitClicked: (id: Int, answer: String) -> Unit = { _, _ -> },
 ) {
     Column(Modifier.fillMaxWidth()) {
         Text(
@@ -45,9 +45,9 @@ fun QuestionItem(
             modifier = Modifier
                 .fillMaxWidth(.5f)
                 .align(Alignment.CenterHorizontally)
-                .padding(top = 16.dp), onClick = { onSubmitClicked.invoke(question.id, text) }
+                .padding(top = 16.dp), onClick = { question.onClicked(text) }
         ) {
-            if (question.isSubmitted) {
+            if (question.status == SubmitStatus.Submitted) {
                 Text(text = stringResource(R.string.already_submitted))
             } else {
                 Text(text = stringResource(R.string.submit))

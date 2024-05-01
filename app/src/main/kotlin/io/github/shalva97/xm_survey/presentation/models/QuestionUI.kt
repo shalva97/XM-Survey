@@ -5,9 +5,14 @@ import io.github.shalva97.xm_survey.domain.models.Question
 data class QuestionUI(
     val id: Int,
     val question: String,
-    val isSubmitted: Boolean = false,
+    val onClicked: (answer: String) -> Unit = {},
+    val status: SubmitStatus = SubmitStatus.Unanswered,
 )
 
-fun Question.toUI(): QuestionUI {
-    return QuestionUI(id, question)
+enum class SubmitStatus {
+    InProgress, Failed, Retry, Submitted, Unanswered
+}
+
+fun Question.toUI(onClicked: (answer: String) -> Unit): QuestionUI {
+    return QuestionUI(id, question, onClicked = onClicked)
 }
