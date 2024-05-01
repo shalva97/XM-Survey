@@ -10,7 +10,7 @@ data class QuestionUI(
 )
 
 enum class SubmitStatus {
-    InProgress, Failed, Retry, Submitted, Unanswered
+    InProgress, Failed, Submitted, Unanswered
 }
 
 fun Question.toUI(onClicked: (answer: String) -> Unit): QuestionUI {

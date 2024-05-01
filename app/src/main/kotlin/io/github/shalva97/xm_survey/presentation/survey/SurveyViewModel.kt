@@ -34,7 +34,21 @@ class SurveyViewModel @Inject constructor(
     }
 
     private fun submitAnswer(id: Int, answer: String) = viewModelScope.launch {
-        surveyRepo.submit(Answer(id, answer))
+        setItemTo(SubmitStatus.InProgress, id)
+        try {
+            surveyRepo.submit(Answer(id, answer))
+        } catch (e: Exception) {
+            setItemTo(SubmitStatus.Failed, id)
+        }
+        setItemTo(SubmitStatus.Submitted, id)
+    }
+
+    private suspend fun setItemTo(status: SubmitStatus, id: Int) {
+        questions.emit(questions.value.map {
+            if (it.id == id) {
+                it.copy(status = status)
+            } else it
+        })
     }
 
     val mockQuestions = listOf(

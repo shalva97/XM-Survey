@@ -28,13 +28,28 @@ fun QuestionItem(
     question: QuestionUI,
 ) {
     Column(Modifier.fillMaxWidth()) {
+        var text by remember { mutableStateOf("") }
+        when (question.status) {
+            SubmitStatus.InProgress -> {
+                // TODO
+            }
+
+            SubmitStatus.Failed -> {
+                ErrorState { question.onClicked(text) }
+            }
+
+            SubmitStatus.Submitted -> {
+                SuccessState()
+            }
+
+            SubmitStatus.Unanswered -> {}
+        }
         Text(
             modifier = Modifier.padding(8.dp),
             text = question.question,
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.titleLarge
         )
-        var text by remember { mutableStateOf("") }
         TextField(modifier = Modifier
             .padding(top = 16.dp)
             .fillMaxWidth(),
@@ -45,7 +60,8 @@ fun QuestionItem(
             modifier = Modifier
                 .fillMaxWidth(.5f)
                 .align(Alignment.CenterHorizontally)
-                .padding(top = 16.dp), onClick = { question.onClicked(text) }
+                .padding(top = 16.dp), onClick = { question.onClicked(text) },
+            enabled = question.status != SubmitStatus.Submitted
         ) {
             if (question.status == SubmitStatus.Submitted) {
                 Text(text = stringResource(R.string.already_submitted))
