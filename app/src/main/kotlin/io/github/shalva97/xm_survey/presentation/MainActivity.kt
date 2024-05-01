@@ -36,8 +36,7 @@ fun XMApp() {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        // TODO set HOME as start destination
-        NavHost(navController = navController, startDestination = SURVEY) {
+        NavHost(navController = navController, startDestination = HOME) {
             composable(HOME) { HomeScreen(navController) }
             composable(SURVEY) { SurveyScreen() }
         }
