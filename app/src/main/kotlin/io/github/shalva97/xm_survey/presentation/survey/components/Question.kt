@@ -56,11 +56,9 @@ fun QuestionItem(
                 .align(Alignment.CenterHorizontally)
                 .padding(top = 16.dp),
             onClick = { question.onClicked(text) },
-            enabled = question.status != SubmitStatus.Submitted
+            enabled = question.status != SubmitStatus.Submitted && question.status != SubmitStatus.SubmittedAndShowingSuccess
         ) {
-            if (question.status == SubmitStatus.Submitted
-                || question.status == SubmitStatus.SubmittedAndShowingSuccess
-            ) {
+            if (question.status == SubmitStatus.Submitted || question.status == SubmitStatus.SubmittedAndShowingSuccess) {
                 Text(text = stringResource(R.string.already_submitted))
             } else {
                 Text(text = stringResource(R.string.submit))
